@@ -940,7 +940,7 @@ impl Blockstore {
 
         metrics.insert_shreds_elapsed_us += start.as_us();
         let mut start = Measure::start("Shred recovery");
-        if let Some(leader_schedule_cache) = leader_schedule {
+        // if let Some(leader_schedule_cache) = leader_schedule {
             let recovered_shreds = self.try_shred_recovery(
                 &erasure_metas,
                 &mut index_working_set,
@@ -955,12 +955,12 @@ impl Blockstore {
             let recovered_shreds: Vec<_> = recovered_shreds
                 .into_iter()
                 .filter_map(|shred| {
-                    let leader =
-                        leader_schedule_cache.slot_leader_at(shred.slot(), /*bank=*/ None)?;
-                    if !shred.verify(&leader) {
-                        metrics.num_recovered_failed_sig += 1;
-                        return None;
-                    }
+                    // let leader =
+                    //     leader_schedule_cache.slot_leader_at(shred.slot(), /*bank=*/ None)?;
+                    // if !shred.verify(&leader) {
+                    //     metrics.num_recovered_failed_sig += 1;
+                    //     return None;
+                    // }
                     // Since the data shreds are fully recovered from the
                     // erasure batch, no need to store coding shreds in
                     // blockstore.
@@ -1014,7 +1014,7 @@ impl Blockstore {
                     );
                 }
             }
-        }
+        // }
         start.stop();
         metrics.shred_recovery_elapsed_us += start.as_us();
 
